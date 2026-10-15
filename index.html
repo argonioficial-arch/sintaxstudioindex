@@ -225,7 +225,7 @@ const set=v=>{try{localStorage.setItem('sx_consent',v)}catch(_){}ck.classList.re
 $('#ok').onclick=()=>set('all');$('#no').onclick=()=>set('necessary');
 $('#cfg').onclick=()=>ck.classList.add('on');
 // form -> mailto
-const WEBHOOK='PEGA_AQUI_TU_WEBHOOK_DE_DISCORD';
+const WEBHOOK='https://discord.com/api/webhooks/1560319393299173387/k5nJMAdaTsOnj34UbtY3PDSvYpUoWtlxiMW034sz13uBbaMwJI0mJaC3MMdOvKT4LXc9';
 $('#f').addEventListener('submit',async e=>{e.preventDefault();const f=e.target,d=new FormData(f),fs=$('#fs'),b=f.querySelector('button[type=submit]');
 if(d.get('web'))return;
 if(WEBHOOK.startsWith('PEGA')){location.href='mailto:hola@sintaxis.studio?subject='+encodeURIComponent('Proyecto: '+d.get('t'))+'&body='+encodeURIComponent(d.get('m')+'\n\n'+d.get('n')+' ('+d.get('e')+')');return}
