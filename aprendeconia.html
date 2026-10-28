@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Formación gratuita en programación e IA · COCI · Sintaxis Studio</title>
-<meta name="description" content="Convocatoria del Centro Oficial de Carreras Intelectuales (COCI) de Sintaxis Studio: aprende programación con IA e ingeniería de prompts. Gratis hasta el 31 de octubre.">
+<title>Catálogo de carreras de programación con IA · COCI · Sintaxis Studio</title>
+<meta name="description" content="Catálogo de carreras del Centro Oficial de Carreras Intelectuales (COCI) de Sintaxis Studio: doce carreras de programación con IA. 5 € por pago único, sin cuotas mensuales.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -122,6 +122,30 @@
   .c2 .code{background:#10111612;color:#10111699}.c2 .code i{color:var(--ink)}
   @media(max-width:900px){.c1,.c2{grid-column:span 6}.c3,.c4,.c5{grid-column:span 3}.c5{grid-column:span 6}}
   @media(max-width:560px){.c3,.c4,.c5{grid-column:span 6}.card h3{margin-top:2.4rem}}
+
+  /* ===== Catálogo de carreras ===== */
+  .careers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+  .career{display:flex;flex-direction:column;min-height:19rem}
+  .career .top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;position:relative;z-index:1}
+  .career .tagc{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.1em;padding:.35rem .85rem;border-radius:99px;background:#10111614}
+  .career h3{font-size:clamp(1.25rem,1.9vw,1.55rem);line-height:1.08;margin:1.7rem 0 .7rem;position:relative;z-index:1}
+  .career p{flex:1;position:relative;z-index:1}
+  .career .buy{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem;padding-top:1.2rem;border-top:2px dashed var(--bl,#10111626)}
+  .career .price b{display:block;font-size:2.3rem;font-weight:900;line-height:1;letter-spacing:-.04em}
+  .career .price small{display:block;font-weight:800;font-size:.78rem;opacity:.75;margin-top:.2rem}
+  .career .btn{padding:.75rem 1.2rem;font-size:.95rem}
+  .k1{background:var(--ink);color:#fff;--bl:#ffffff26}
+  .k1 .num,.k1 .price b{color:var(--blue)}
+  .k1 .tagc{background:#ffffff14;color:#fff}
+  .k1 .ghost{color:#fff}
+  .k2{background:var(--blue-xl);--bl:#10111622}
+  .k2 .ghost,.k4 .ghost{color:var(--blue)}
+  .k3{background:var(--blue);color:var(--ink);--bl:#10111630}
+  .k3 .ghost{color:#fff;opacity:.3}
+  .k4{background:#fff;border:3px solid var(--ink)}
+  .k4 .tagc{background:var(--blue-xl)}
+  @media(max-width:980px){.careers{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.careers{grid-template-columns:1fr}.career{min-height:0}}
 
   /* ===== Prompt lab ===== */
   .lab{background:var(--ink);color:#fff;border-radius:48px 48px 0 0;margin-top:2rem}
@@ -246,6 +270,7 @@
       <div class="cta">
         <a class="btn ink" href="#contacto">Quiero mi plaza →</a>
         <a class="btn white" href="#aprenderas">Ver el temario</a>
+        <a class="btn white" href="#carreras">Ver carreras</a>
       </div>
     </div>
     <aside class="clock" id="clock" aria-label="Cuenta atrás">
@@ -279,6 +304,32 @@
       <article class="card c4 rv" style="--d:.08s"><span class="lg lg-x ghost"></span><span class="num">04</span><h3>Herramientas tecnológicas</h3><p>Recursos para automatizar tareas y optimizar procesos con programación e IA.</p></article>
       <article class="card c5 rv" style="--d:.16s"><span class="lg lg-x ghost"></span><span class="num">05</span><h3>Oportunidades de ingresos</h3><p>Proyectos de Sintaxis Studio para practicar y optar a generar ingresos de forma progresiva.</p></article>
     </div>
+  </div>
+</section>
+
+<!-- CATÁLOGO DE CARRERAS -->
+<section class="sec" id="carreras" style="padding-top:2rem">
+  <div class="wrap">
+    <div class="sec-h rv">
+      <span class="kicker">Catálogo de carreras</span>
+      <h2>Elige tu <em>carrera.</em></h2>
+      <p>Doce carreras de programación con IA. Todas cuestan 5 € por pago único, sin cuotas mensuales.</p>
+    </div>
+    <div class="careers">
+      <article class="card career k1 rv"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPWIA</span><span class="num">01</span></div><h3>Carrera de Programación de Webs con IA</h3><p>Creación de páginas web con ayuda de inteligencia artificial.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn blue" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPWIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPWIA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Webs%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPWIA">Pedir información</a></div></article>
+      <article class="card career k2 rv" style="--d:0.08s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPGA</span><span class="num">02</span></div><h3>Carrera de Programación Generativa con IA</h3><p>Creación de herramientas que generan contenido mediante IA.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPGA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPGA%20-%20Carrera%20de%20Programaci%C3%B3n%20Generativa%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPGA">Pedir información</a></div></article>
+      <article class="card career k3 rv" style="--d:0.16s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPMA</span><span class="num">03</span></div><h3>Carrera de Programación de Aplicaciones Móviles con IA</h3><p>Desarrollo de aplicaciones móviles con funciones inteligentes.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPMA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPMA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Aplicaciones%20M%C3%B3viles%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPMA">Pedir información</a></div></article>
+      <article class="card career k4 rv"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPA</span><span class="num">04</span></div><h3>Carrera de Programación de Automatizaciones</h3><p>Automatización de tareas y conexión de herramientas digitales.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Automatizaciones%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPA">Pedir información</a></div></article>
+      <article class="card career k1 rv" style="--d:0.08s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPBAIA</span><span class="num">05</span></div><h3>Carrera de Programación Backend con IA</h3><p>Servidores, APIs, bases de datos y funcionalidades internas.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn blue" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPBAIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPBAIA%20-%20Carrera%20de%20Programaci%C3%B3n%20Backend%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPBAIA">Pedir información</a></div></article>
+      <article class="card career k2 rv" style="--d:0.16s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPVIA</span><span class="num">06</span></div><h3>Carrera de Programación de Videojuegos con IA</h3><p>Desarrollo de videojuegos con herramientas de inteligencia artificial.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPVIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPVIA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Videojuegos%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPVIA">Pedir información</a></div></article>
+      <article class="card career k3 rv"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPAIA</span><span class="num">07</span></div><h3>Carrera de Programación de Agentes de IA</h3><p>Creación de agentes capaces de utilizar herramientas y ejecutar tareas.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPAIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPAIA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Agentes%20de%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPAIA">Pedir información</a></div></article>
+      <article class="card career k4 rv" style="--d:0.08s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPAA</span><span class="num">08</span></div><h3>Carrera de Programación de Apps con IA</h3><p>Desarrollo de aplicaciones con funciones inteligentes.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPAA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPAA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Apps%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPAA">Pedir información</a></div></article>
+      <article class="card career k1 rv" style="--d:0.16s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPCIA</span><span class="num">09</span></div><h3>Carrera de Programación de Chatbots con IA</h3><p>Creación de chatbots y asistentes conversacionales.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn blue" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPCIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPCIA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Chatbots%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPCIA">Pedir información</a></div></article>
+      <article class="card career k2 rv"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPEIA</span><span class="num">10</span></div><h3>Carrera de Programación Educativa con IA</h3><p>Desarrollo de herramientas y aplicaciones educativas con IA.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPEIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPEIA%20-%20Carrera%20de%20Programaci%C3%B3n%20Educativa%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPEIA">Pedir información</a></div></article>
+      <article class="card career k3 rv" style="--d:0.08s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CPAPIA</span><span class="num">11</span></div><h3>Carrera de Programación de Asistentes Personales con IA</h3><p>Creación de asistentes para organizar tareas y gestionar información.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CPAPIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CPAPIA%20-%20Carrera%20de%20Programaci%C3%B3n%20de%20Asistentes%20Personales%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CPAPIA">Pedir información</a></div></article>
+      <article class="card career k4 rv" style="--d:0.16s"><span class="lg lg-x ghost"></span><div class="top"><span class="tagc">CCHRSIA</span><span class="num">12</span></div><h3>Carrera de Creación de Herramientas para Redes Sociales con IA</h3><p>Herramientas para crear, organizar y analizar contenido para redes sociales.</p><div class="buy"><div class="price"><b>5 €</b><small>pago único</small></div><a class="btn ink" href="mailto:sintaxistudio.oficial@gmail.com?subject=Quiero%20informaci%C3%B3n%20de%20la%20carrera%20CCHRSIA%20%28COCI%29&amp;body=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20carrera%20CCHRSIA%20-%20Carrera%20de%20Creaci%C3%B3n%20de%20Herramientas%20para%20Redes%20Sociales%20con%20IA%20%285%20%E2%82%AC%20%C2%B7%20pago%20%C3%BAnico%29." aria-label="Pedir información de CCHRSIA">Pedir información</a></div></article>
+    </div>
+    <div class="legal rv" style="margin-top:1.6rem"><i>!</i><p>Cada carrera cuesta 5 € en un único pago, sin cuotas mensuales. La formación no garantiza ingresos ni la asignación de proyectos, y el acceso está sujeto a las condiciones establecidas por Sintaxis Studio.</p></div>
   </div>
 </section>
 
