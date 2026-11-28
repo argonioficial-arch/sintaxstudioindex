@@ -1,0 +1,110 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mis pedidos · Sintaxis Studio</title><meta name="robots" content="noindex">
+<style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#101116;color:#fff;font:16px/1.6 system-ui,sans-serif}main{width:min(760px,100% - 32px);margin:32px auto}a{color:#76a8ff}
+.card{background:#171922;border:1px solid #262a37;border-radius:18px;padding:20px;margin-bottom:16px;overflow-wrap:anywhere}input{width:100%;margin:4px 0 12px;padding:11px;border-radius:10px;border:1px solid #262a37;background:#0d0e13;color:#fff;font:inherit}
+button{font:inherit;padding:10px 18px;border-radius:99px;border:1px solid #262a37;background:#222637;color:#fff;cursor:pointer;margin:0 6px 6px 0}.p{background:#76a8ff;color:#101116}.mut{color:#9aa3b8}.tag{border:1px solid #76a8ff;border-radius:99px;padding:2px 10px;font-size:13px;display:inline-block}
+.steps{display:flex;gap:4px;margin:12px 0}.steps i{flex:1;height:6px;border-radius:9px;background:#262a37}.steps i.on{background:#76a8ff}table{width:100%;border-collapse:collapse}td{padding:6px 0;border-bottom:1px solid #262a37}td+td{text-align:right;white-space:nowrap;padding-left:12px}</style></head>
+<body><main><p><a href="tienda.html">← Volver a la tienda</a></p><h1>Mis pedidos</h1><div id="root"></div><p class="mut">¿Dudas? hola@sintaxis.studio</p></main>
+<script>
+const URL_ = 'https://czsxxznvhxkxapxlygyo.supabase.co';
+const KEY = 'sb_publishable_tTVr7X63HKgMFGWKYtV_-A_H41-HlRg'; // clave pública: la seguridad la ponen las reglas RLS
+let ses = null;
+try { ses = JSON.parse(localStorage.getItem('sx_cli_ses')) } catch (_) {}
+const keep = s => { ses = s; try { s ? localStorage.setItem('sx_cli_ses', JSON.stringify(s)) : localStorage.removeItem('sx_cli_ses') } catch (_) {} };
+
+async function req(path, { method = 'GET', body, headers = {}, token } = {}) {
+  const r = await fetch(URL_ + path, { method, body: body === undefined ? undefined : JSON.stringify(body),
+    headers: { apikey: KEY, 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}), ...headers } });
+  const t = await r.text();
+  let d = null; try { d = t ? JSON.parse(t) : null } catch (_) { d = t }
+  if (!r.ok) { const e = new Error(d?.msg || d?.message || d?.error_description || 'Error ' + r.status); e.status = r.status; throw e }
+  return d;
+}
+const toSes = d => ({ access: d.access_token, refresh: d.refresh_token, exp: Date.now() + d.expires_in * 1000, user: d.user });
+let refreshing = null;
+async function token() {
+  if (!ses) throw new Error('Sesión no iniciada');
+  if (Date.now() > ses.exp - 60000) {
+    refreshing ??= req('/auth/v1/token?grant_type=refresh_token', { method: 'POST', body: { refresh_token: ses.refresh } })
+      .then(d => keep(toSes(d)))
+      .catch(e => { if (e.status === 400 || e.status === 401) { keep(null); location.reload() } throw e })
+      .finally(() => refreshing = null);
+    await refreshing;
+  }
+  return ses.access;
+}
+const api = {
+  get session() { return ses },
+  async login(email, password) { keep(toSes(await req('/auth/v1/token?grant_type=password', { method: 'POST', body: { email, password } }))) },
+  async signup(email, password) { const d = await req('/auth/v1/signup', { method: 'POST', body: { email, password } }); if (d.access_token) keep(toSes(d)) },
+  async logout() { try { await req('/auth/v1/logout?scope=local', { method: 'POST', token: await token() }) } catch (_) {} keep(null) },
+  // Lee todas las filas por páginas (la API limita cada respuesta).
+  async list(table, query = 'select=*') {
+    const all = [];
+    for (let off = 0; ; off += 1000) {
+      const page = await req(`/rest/v1/${table}?${query}&limit=1000&offset=${off}`, { token: await token() });
+      all.push(...page); if (page.length < 1000) return all;
+    }
+  },
+  async insert(table, row) { return req(`/rest/v1/${table}`, { method: 'POST', body: row, token: await token(), headers: { Prefer: 'return=representation' } }) },
+  async upsert(table, row, on) { return req(`/rest/v1/${table}?on_conflict=${on}`, { method: 'POST', body: row, token: await token(), headers: { Prefer: 'resolution=merge-duplicates,return=representation' } }) },
+  async update(table, filter, row) {
+    const d = await req(`/rest/v1/${table}?${filter}`, { method: 'PATCH', body: row, token: await token(), headers: { Prefer: 'return=representation' } });
+    if (!d.length) throw new Error('No se ha guardado: sin permiso o el registro ya no existe');
+    return d;
+  },
+  async remove(table, filter) {
+    const d = await req(`/rest/v1/${table}?${filter}`, { method: 'DELETE', token: await token(), headers: { Prefer: 'return=representation' } });
+    if (!d.length) throw new Error('No se ha borrado: sin permiso o el registro ya no existe');
+  },
+  async rpc(fn, args = {}) { return req('/rest/v1/rpc/' + fn, { method: 'POST', body: args, token: await token() }) }
+};
+// Plantillas que escapan todo valor, salvo el HTML generado por la propia plantilla.
+class Safe { constructor(s) { this.s = s } toString() { return this.s } }
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const part = v => Array.isArray(v) ? v.map(part).join('') : v instanceof Safe ? v.s : v === false ? '' : esc(v);
+const h = (s, ...v) => new Safe(s.reduce((a, x, i) => a + x + (i < v.length ? part(v[i]) : ''), ''));
+const eur = n => Number(n || 0).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+const fecha = d => d ? new Date(d).toLocaleDateString('es-ES') : '—';
+const ESTADOS = { draft: 'Borrador', quote: 'Presupuesto', accepted: 'Aceptado', in_progress: 'En curso', review: 'En revisión', delivered: 'Entregado', cancelled: 'Cancelado' };
+const PAGOS = { pending: 'Pendiente', partial: 'Parcial', paid: 'Pagado', refunded: 'Devuelto' };
+const subtotal = lines => lines.reduce((a, l) => a + Math.round(l.quantity * l.unit_price * 100), 0) / 100;
+const conIva = (base, rate) => Math.round(base * (100 + Number(rate))) / 100;
+
+const root=document.querySelector('#root');
+function login(msg=''){
+  root.innerHTML=h`<form class="card" id="f"><p>Entra para ver el estado de tus pedidos.</p><label>Email<input name="email" type="email" required autocomplete="username"></label><label>Contraseña<input name="pass" type="password" minlength="8" required autocomplete="current-password"></label><button class="p">Entrar</button><button type="button" id="su">Crear cuenta</button><p role="status">${msg}</p></form>`;
+  const f=document.querySelector('#f');
+  const run=async fn=>{const d=new FormData(f);try{await fn(d.get('email'),d.get('pass'));api.session?show():login('Revisa tu correo para confirmar la cuenta y luego entra.')}catch(e){f.querySelector('[role=status]').textContent=e.message}};
+  f.onsubmit=e=>{e.preventDefault();run(api.login)};
+  document.querySelector('#su').onclick=()=>f.reportValidity()&&run(api.signup);
+}
+async function show(){
+  root.innerHTML=h`<p>Cargando…</p>`;
+  const out=h`<button id="out">Cerrar sesión</button>`;
+  try{
+    // Se filtra por la ficha propia (así un miembro del equipo tampoco ve aquí pedidos ajenos).
+    const mine=await api.list('studio_clients','select=id&order=id&auth_user_id=eq.'+api.session.user.id);
+    let html;
+    if(!mine.length) html=h`<div class="card"><p>Tu cuenta (${api.session.user.email}) todavía no está vinculada a ningún cliente. Escríbenos con ese email y la activaremos.</p></div>`;
+    else{
+      const orders=await api.list('studio_orders','select=*&status=neq.draft&order=number.desc&client_id=in.('+mine.map(c=>c.id)+')');
+      const cards=[];
+      for(const o of orders){
+        const [lines,ups]=await Promise.all([api.list('studio_order_lines','select=*&order=id&order_id=eq.'+o.id),api.list('studio_order_updates','select=*&visible_to_client=eq.true&order=created_at.desc&order_id=eq.'+o.id)]);
+        const step=['quote','accepted','in_progress','review','delivered'].indexOf(o.status);
+        const base=subtotal(lines);
+        cards.push(h`<div class="card"><span class="tag">${ESTADOS[o.status]}</span><h2>#${o.number} · ${o.title}</h2>
+          ${step<0?'':h`<div class="steps" aria-hidden="true">${[0,1,2,3,4].map(i=>h`<i class="${i<=step?'on':''}"></i>`)}</div>`}
+          <p class="mut">Pago: ${PAGOS[o.payment_status]} · Entrega prevista: ${fecha(o.due_date)}</p>
+          <table>${lines.map(l=>h`<tr><td>${l.quantity} × ${l.description}</td><td>${eur(l.quantity*l.unit_price)}</td></tr>`)}</table>
+          <p><b>Total${Number(o.tax_rate)?' (IVA incluido)':''}: ${eur(conIva(base,o.tax_rate))}</b></p>
+          ${ups.map(u=>h`<p><span class="mut">${fecha(u.created_at)}</span><br>${u.message}</p>`)}</div>`);
+      }
+      html=cards.length?h`${cards}`:h`<div class="card">Todavía no tienes pedidos.</div>`;
+    }
+    root.innerHTML=h`${html}${out}`;
+  }catch(e){root.innerHTML=h`<div class="card">No se han podido cargar los pedidos: ${e.message}</div>${out}`}
+  document.querySelector('#out').onclick=async()=>{await api.logout();login()};
+}
+api.session?show():login();
+</script></body></html>
